@@ -325,10 +325,34 @@ LRESULT CPerfBar::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
     return 0;
 }
 
+bool IsTaskBarVertical() {
+    APPBARDATA appbar = { sizeof(APPBARDATA) };
+    auto result = (BOOL)::SHAppBarMessage(ABM_GETTASKBARPOS, &appbar);
+
+    if (result) {
+        return (appbar.uEdge == ABE_LEFT) || (appbar.uEdge == ABE_RIGHT);
+    }
+
+    return false;
+}
+
+bool PageShouldBeDisplayed(const Configuration::Page& page) {
+    if (page.Lines.empty())
+        return false;
+
+    bool taskbarIsVertical = IsTaskBarVertical();
+
+    if ((taskbarIsVertical && (page.Orientation == Configuration::Orientation::Horizontal)) ||
+        ((!taskbarIsVertical) && (page.Orientation == Configuration::Orientation::Vertical))) {
+        return false;
+    }
+
+    return true;
+}
+
 void CPerfBar::PaintData(HDC hdc, POINT offset)
 {
     Configuration::pages_t& pages = m_config.GetPages();
-    //Configuration::counters_t & counters = m_config.GetCounters();
 
     if (pages.empty()) {
         return;
@@ -338,11 +362,31 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
         m_currentPage = pages.size() - 1;
     }
 
-    Configuration::Page& page = pages[m_currentPage];
+    auto pageref = std::ref(pages[m_currentPage]);
 
-    if (page.Lines.empty()) {
-        return;
+    if (!PageShouldBeDisplayed(pageref)) {
+        //find first valid page, starting after m_currentPage and looping around
+        size_t index = m_currentPage + 1;
+        bool found = false;
+        while (index != m_currentPage)
+        {
+            if (index >= pages.size()) {
+                index = 0;
+            }
+            pageref = std::ref(pages[index]);
+            if (PageShouldBeDisplayed(pageref)) {
+                m_currentPage = index;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            m_currentPage = 0;
+            return;
+        }
     }
+
+    const Configuration::Page& page = pageref;
 
     auto values = m_perfMonitor.GetValues();
 
@@ -354,7 +398,7 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
 
     for (size_t i = 0; i < page.Lines.size(); ++i) {
         buf[0] = 0;
-        Configuration::Line& line = page.Lines[i];
+        const Configuration::Line& line = page.Lines[i];
 
         for (auto iit = line.Display.begin(); iit != line.Display.end(); ++iit) {
             auto value_it = values.find(iit->Counter);

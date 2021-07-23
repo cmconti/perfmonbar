@@ -6,14 +6,45 @@
         <counter name="cpu" value="\Processor Information(_Total)\% Processor Time"/>
         <counter name="mem" value="\Memory\Committed Bytes"/>
         <!--<counter name="netin" value="\Network Interface(Intel[R] Ethernet Connection [2] I219-V)\Bytes Received/sec"/>-->
-        <counter name="netin" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Received/sec"/>
-        <counter name="netout" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Sent/sec"/>
+        <!--<counter name="netin" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Received/sec"/>-->
+        <!--<counter name="netout" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Sent/sec"/>-->
+        <counter name="netout" value="\Network Interface(*)\Bytes Sent/sec"/>
+        <counter name="netin" value="\Network Interface(*)\Bytes Received/sec"/>
+        <counter name="disktimeC" value="\LogicalDisk(C:)\% Disk Time"/>
         <counter name="freediskC" value="\LogicalDisk(C:)\Free Megabytes"/>
+        <counter name="freediskE" value="\LogicalDisk(E:)\Free Megabytes"/>
         <counter name="processCount" value="\System\Processes"/>
     </counters>
     <pages>
         <!-- use left button click on the performance bar to switch between the pages -->
-        <page offsetY="6">
+        <page offsetY="0" taskbarOrientation="vertical">
+            <lines>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <!-- you can use the "characters" attribute to ensure a minimum length of the displayed value -->
+                    <!-- <display prefix="CPU: " suffix="% " counter="cpu" characters="3"/> -->
+                    <display prefix=" CPU: " suffix="% " counter="cpu"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" RAM: " suffix=" GB" counter="mem" decimals="2" divide="1073741824"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" ↑: " suffix="KB/s" counter="netout" decimals="1" divide="1024"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" ↓: " suffix="KB/s" counter="netin" decimals="1" divide="1024"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" Time C: " suffix="%" counter="disktimeC"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" Free C: " suffix=" GB" counter="freediskC" decimals="1" divide="1024"/>
+                </line>
+                <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
+                    <display prefix=" Free E: " suffix=" GB" counter="freediskE" decimals="1" divide="1024"/>
+                </line>
+            </lines>
+        </page>
+        <page offsetY="6" taskbarOrientation="horizontal">
             <lines>
                 <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="true" fontColor="FFFFFF">
                     <!-- you can use the "characters" attribute to ensure a minimum length of the displayed value -->
@@ -29,7 +60,7 @@
                 </line>
             </lines>
         </page>
-        <page offsetY="6">
+        <page offsetY="6" taskbarOrientation="both">
             <lines>
                 <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="true" fontColor="FFFFFF">
                     <display prefix="Free C: " suffix=" GB" counter="freediskC" decimals="1" divide="1024"/>

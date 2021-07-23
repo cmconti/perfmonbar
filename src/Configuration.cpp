@@ -176,6 +176,18 @@ bool Configuration::ReadPage(IXMLDOMNodePtr& node, Page& page)
         if (name == bstr_t("offsetY")) {
             page.OffsetY = atoi(bstr_t(value));
         }
+
+        if (name == bstr_t("taskbarOrientation")) {
+            auto strValue = bstr_t(value);
+            Orientation orientation(Orientation::Horizontal);
+            if (strValue == bstr_t("vertical")) {
+                orientation = Orientation::Vertical;
+            }
+            else if (strValue == bstr_t("both")) {
+                orientation = Orientation::Both;
+            }
+            page.Orientation = orientation;
+        }
     }
 
     IXMLDOMNodePtr childNode;

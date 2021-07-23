@@ -60,12 +60,20 @@ public:
         std::vector<Display> Display;
     };
 
+    enum class Orientation
+    {
+        Horizontal = 0x01,
+        Vertical = 0x02,
+        Both = Horizontal | Vertical
+    };
+
     struct Page {
         int               OffsetY;
+        Orientation       Orientation;
         std::vector<Line> Lines;
 
         Page()
-            : OffsetY(0) {
+            : OffsetY(0), Orientation(Orientation::Horizontal) {
         }
     };
 
