@@ -325,6 +325,35 @@ LRESULT CPerfBar::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
     return 0;
 }
 
+std::unordered_map<std::wstring, double> GetAPIValues()
+{
+    std::unordered_map<std::wstring, double> values;
+
+    //Memory
+    //https://docs.microsoft.com/en-us/windows/win32/memory-performance-information
+    MEMORYSTATUSEX memory = { sizeof(MEMORYSTATUSEX) };
+    ::GlobalMemoryStatusEx(&memory);
+    double total = (double)(__int64)(memory.ullTotalPhys);
+    double free = (double)(__int64)(memory.ullAvailPhys);
+    double used = total - free;
+    double pctUsed = round((used / total) * 100.0);
+    values[L"#MemTotal"] = used;
+    values[L"#MemFree"] = free;
+    values[L"#MemUsed"] = used;
+    values[L"#MemPctUsed"] = pctUsed;
+
+    //for (auto it = _counters.begin(); it != _counters.end(); ++it) {
+    //    PDH_FMT_COUNTERVALUE pdhCounterValue;
+    //    pdhStatus = PdhGetFormattedCounterValue(it->second, PDH_FMT_DOUBLE, nullptr, &pdhCounterValue);
+
+    //    if (pdhStatus == ERROR_SUCCESS) {
+    //        values[it->first] = pdhCounterValue.doubleValue;
+    //    }
+    //}
+
+    return values;
+}
+
 bool IsTaskBarVertical() {
     APPBARDATA appbar = { sizeof(APPBARDATA) };
     auto result = (BOOL)::SHAppBarMessage(ABM_GETTASKBARPOS, &appbar);
@@ -389,6 +418,7 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
     const Configuration::Page& page = pageref;
 
     auto values = m_perfMonitor.GetValues();
+    auto apiValues = GetAPIValues();
 
     TEXTMETRIC textMetric;
     GetTextMetrics(hdc, &textMetric);
@@ -403,6 +433,10 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
         for (auto iit = line.Display.begin(); iit != line.Display.end(); ++iit) {
             auto value_it = values.find(iit->Counter);
             wchar_t formattedValue[256] = { 0 };
+
+            if (value_it == values.end()) {
+                value_it = apiValues.find(iit->Counter);
+            }
 
             if (value_it == values.end()) {
                 wcscpy_s(formattedValue, _countof(formattedValue), L"[N/A]");
