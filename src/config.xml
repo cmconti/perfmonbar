@@ -25,7 +25,7 @@
                     <display prefix=" CPU: " suffix="% " counter="cpu"/>
                 </line>
                 <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
-                    <display prefix=" RAM: " suffix=" GB" counter="mem" decimals="2" divide="1073741824"/>
+                    <display prefix=" RAM: " suffix=" GB" counter="#MemUsed" decimals="1" divide="1073741824"/>
                 </line>
                 <line fontFamily="Segoe UI" fontSize="8" fontItalic="false" fontBold="false" fontColor="FFFFFF">
                     <display prefix=" ↑: " suffix="KB/s" counter="netout" decimals="1" divide="1024"/>
