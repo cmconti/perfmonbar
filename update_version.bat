@@ -4,6 +4,7 @@ SETLOCAL
 PUSHD %~dp0
 
 REM check if powershell is installed and at least v5.1
+powershell -Command "$PSVersionTable.PSVersion"
 powershell -Command "if ([Version]'5.1' -gt $PSVersionTable.PSVersion){exit 1;}" > NUL 2>&1
 IF ERRORLEVEL 1 GOTO :MissingPowershell
 
@@ -16,6 +17,7 @@ EXIT /B
 
 
 :MissingPowershell
+POPD
 COLOR 0C
 TITLE ERROR
 ECHO Powershell 5.1 or later is not installed
