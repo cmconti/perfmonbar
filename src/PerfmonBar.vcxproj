@@ -119,7 +119,8 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PreBuildEvent>
-      <Command>..\update_version.bat</Command>
+      <Command>path
+..\update_version.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,7 +156,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>..\update_version.bat</Command>
+      <Command>path
+..\update_version.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -195,7 +197,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>..\update_version.bat</Command>
+      <Command>path
+..\update_version.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -235,7 +238,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>..\update_version.bat</Command>
+      <Command>path
+..\update_version.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
