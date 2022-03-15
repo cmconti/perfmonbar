@@ -10,19 +10,17 @@ IF ERRORLEVEL 1 GOTO :MissingPowershell
 
 powershell -ExecutionPolicy Bypass -File .\version.ps1
 
-:END
-POPD
-ENDLOCAL
-EXIT /B
-
+GOTO END
 
 :MissingPowershell
-POPD
 COLOR 0C
 TITLE ERROR
 ECHO Powershell 5.1 or later is not installed
 ECHO. & ECHO.
 ECHO Press any key to exit...
 PAUSE >NUL
+
+:END
+POPD
 ENDLOCAL
 EXIT /B
