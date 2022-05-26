@@ -438,8 +438,8 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
                 value_it = apiValues.find(iit->Counter);
             }
 
-            if (value_it == values.end()) {
-                wcscpy_s(formattedValue, _countof(formattedValue), L"[N/A]");
+            if ((value_it == values.end()) || (value_it == apiValues.end())) {
+                swprintf_s(display, _countof(display), L"%s [N/A]", iit->Prefix.c_str());
             } else {
                 double val = value_it->second;
 
@@ -460,9 +460,9 @@ void CPerfBar::PaintData(HDC hdc, POINT offset)
                 );
 
                 swprintf_s(formattedValue, _countof(formattedValue), formattingString, val);
+                swprintf_s(display, _countof(display), L"%s%s%s", iit->Prefix.c_str(), formattedValue, iit->Suffix.c_str());
             }
 
-            swprintf_s(display, _countof(display), L"%s%s%s", iit->Prefix.c_str(), formattedValue, iit->Suffix.c_str());
             wcscat_s(buf, _countof(buf), display);
         }
 
