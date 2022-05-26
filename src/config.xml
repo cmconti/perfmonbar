@@ -3,13 +3,25 @@
 <perfbar>
     <counters>
         <!-- you can run `typeperf -q>counters.txt` to list all available counters on your system -->
+        <!-- instance names if necessary: (Get-Counter -ListSet 'Network Interface').PathsWithInstances | sls bytes.*total -->
+        <!-- use notepad to edit: reg.exe add HKEY_CLASSES_ROOT\xmlfile\shell\edit\command /ve /t REG_EXPAND_SZ /d "%SystemRoot%\system32\notepad.exe %1" -->
         <counter name="cpu" value="\Processor Information(_Total)\% Processor Time"/>
         <counter name="mem" value="\Memory\Committed Bytes"/>
         <!--<counter name="netin" value="\Network Interface(Intel[R] Ethernet Connection [2] I219-V)\Bytes Received/sec"/>-->
-        <!--<counter name="netin" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Received/sec"/>-->
-        <!--<counter name="netout" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Sent/sec"/>-->
+        <!--
+        <counter name="netin" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Received/sec"/>
+        <counter name="netout" value="\Network Interface(Realtek PCIe GBE Family Controller)\Bytes Sent/sec"/>
+        -->
         <counter name="netout" value="\Network Interface(*)\Bytes Sent/sec"/>
         <counter name="netin" value="\Network Interface(*)\Bytes Received/sec"/>
+        <!--
+        <counter name="netout" value="\Network Interface(lenovo usb ethernet)\Bytes Sent/sec"/>
+        <counter name="netin" value="\Network Interface(lenovo usb ethernet)\Bytes Received/sec"/>
+        -->
+        <!--
+        <counter name="netout" value="\Network Interface(Intel[R] Wireless-AC 9560 160MHz)\Bytes Sent/sec"/>
+        <counter name="netin" value="\Network Interface(Intel[R] Wireless-AC 9560 160MHz)\Bytes Received/sec"/>
+        -->
         <counter name="disktimeC" value="\LogicalDisk(C:)\% Disk Time"/>
         <counter name="freediskC" value="\LogicalDisk(C:)\Free Megabytes"/>
         <counter name="freediskE" value="\LogicalDisk(E:)\Free Megabytes"/>
